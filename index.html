@@ -14,9 +14,9 @@
   <meta property="og:site_name" content="15 Anos Gabriella Martins" />
   <meta property="og:title" content="Convite Especial - 15 Anos Gabriella" />
   <meta property="og:description" content="Você é nosso convidado especial! Clique no link para abrir o envelope do convite e confirmar sua presença." />
-  <meta property="og:image" content="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1200&auto=format&fit=crop" />
-  <meta property="og:image:secure_url" content="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1200&auto=format&fit=crop" />
-  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image" content="og_share.png" />
+  <meta property="og:image:secure_url" content="og_share.png" />
+  <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
@@ -24,7 +24,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Convite Especial - 15 Anos Gabriella" />
   <meta name="twitter:description" content="Você é nosso convidado especial! Clique no link para abrir o envelope do convite e confirmar sua presença." />
-  <meta name="twitter:image" content="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1200&auto=format&fit=crop" />
+  <meta name="twitter:image" content="og_share.png" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -155,8 +155,7 @@
         <!-- Wax Seal -->
         <div class="absolute top-1/2 left-1/2 -translate-x-12 -translate-y-12 z-30 w-24 h-24 rounded-full bg-gradient-to-br from-[#D88A9E] via-[#BA6888] to-[#8C4A63] shadow-lg border-2 border-[#FAF0F4] flex flex-col items-center justify-center group-hover:scale-110 transition-transform">
           <div class="absolute inset-1 rounded-full border border-dashed border-[#FAF0F4]/60"></div>
-          <img src="logo.png" alt="Logo GM" class="w-11 h-11 object-contain filter brightness-0 invert drop-shadow-sm select-none" onerror="this.onerror=null; this.style.display='none'; document.getElementById('seal-gm-fallback').classList.remove('hidden');" />
-          <span id="seal-gm-fallback" class="font-serifTitle text-2xl text-[#FAF0F4] font-bold tracking-tighter drop-shadow-sm hidden">GM</span>
+          <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-sm select-none" />
           <span class="font-garamond text-[9px] uppercase tracking-widest text-[#FAF0F4]/90 font-medium mt-0.5">Toque</span>
         </div>
       </div>
@@ -181,21 +180,10 @@
     <div class="relative w-full max-w-xl mx-auto bg-[#FFFDFE]/90 backdrop-blur-md rounded-3xl border border-[#E6C0CE]/70 shadow-2xl p-6 sm:p-10 text-center overflow-hidden">
       <div class="absolute inset-3 border border-[#E6C0CE]/40 rounded-2xl pointer-events-none"></div>
 
-      <!-- Logo / Monogram (Moved to top in place of SAVE THE DATE) -->
+      <!-- Logo -->
       <div class="pt-2 pb-4 flex flex-col items-center justify-center">
         <div class="w-36 h-36 md:w-44 md:h-44 relative flex items-center justify-center">
-          <img src="logo.png" alt="Gabriella Martins Logo" onerror="this.onerror=null; this.style.display='none'; document.getElementById('logo-fallback-svg').classList.remove('hidden');" class="w-full h-full object-contain filter drop-shadow-sm select-none" />
-          <svg id="logo-fallback-svg" class="w-full h-full drop-shadow-sm hidden" viewBox="0 0 240 200" fill="none">
-            <defs>
-              <linearGradient id="mauveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#C47393" />
-                <stop offset="50%" stop-color="#BA6888" />
-                <stop offset="100%" stop-color="#9E4D6E" />
-              </linearGradient>
-            </defs>
-            <path d="M 105,45 C 80,22 40,32 30,68 C 18,110 38,155 82,158 C 110,160 130,140 135,115 L 90,115 L 140,103 C 141,128 128,172 82,170 C 25,168 5,110 18,58 C 32,12 85,2 120,30 Z" fill="url(#mauveGrad)"/>
-            <path d="M 60,100 C 72,70 102,30 118,30 L 145,110 L 168,30 L 195,30 L 195,145 L 181,60 L 150,155 L 110,85 C 100,110 82,145 60,178 Z" fill="url(#mauveGrad)"/>
-          </svg>
+          <img src="logo.png" alt="Gabriella Martins Logo" class="w-full h-full object-contain filter drop-shadow-sm select-none" />
         </div>
         <h2 class="font-script text-4xl sm:text-5xl text-[#A65373] mt-2">Gabriella Martins</h2>
         <span class="font-garamond text-xs sm:text-sm tracking-[0.3em] uppercase text-[#8C4A63] font-semibold mt-1">15 Anos</span>
@@ -504,12 +492,12 @@
         '<svg width="{size}" height="{size}" viewBox="0 0 30 30" fill="{color}"><path d="M15,2 C23,6 28,16 22,25 C16,30 8,27 4,19 C1,11 7,4 15,2 Z" opacity="0.88"/></svg>'
       ];
 
-      for (let i = 0; i < 13; i++) {
+      for (let i = 0; i < 8; i++) {
         const petal = document.createElement('div');
         petal.className = 'absolute animate-petal pointer-events-none drop-shadow-[0_2px_4px_rgba(140,40,80,0.4)]';
-        petal.style.left = `${(i * 7.5 + Math.random() * 4) % 100}%`;
-        petal.style.animationDuration = `${10 + (i % 6) * 2.2}s`;
-        petal.style.animationDelay = `${(i * 0.7) % 5}s`;
+        petal.style.left = `${(i * 12.5 + Math.random() * 3) % 100}%`;
+        petal.style.animationDuration = `${11 + (i % 5) * 2.5}s`;
+        petal.style.animationDelay = `${(i * 0.8) % 6}s`;
         
         const color = pinkColors[i % pinkColors.length];
         const shapeTemplate = svgShapes[i % svgShapes.length];
