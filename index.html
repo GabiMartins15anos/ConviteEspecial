@@ -270,9 +270,25 @@
         <div class="absolute inset-0 bg-[#3D2330]/10 rounded-2xl blur-xl transform translate-y-6 scale-95"></div>
         <div class="absolute inset-0 bg-[#FAF0F4] border border-[#E6C0CE] rounded-2xl shadow-xl overflow-hidden">
           <div class="absolute inset-2 border border-dashed border-[#D8B0C0]/50 rounded-xl bg-[radial-gradient(#BA6888_1px,transparent_1px)] [background-size:12px_12px] opacity-20"></div>
-          <div id="envelope-card-peek" class="absolute inset-x-6 top-6 bottom-4 bg-[#FFFDFE] border border-[#BA6888]/30 rounded-xl p-6 shadow-md flex flex-col items-center justify-center text-center transition-transform duration-700">
-            <!-- Em branco sob o botão, conforme solicitado -->
-          </div>
+
+          <!-- SVG Envelope Top Flap -->
+          <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 400 300" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="topFlapGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FAF0F4" />
+                <stop offset="100%" stop-color="#F0D5E3" />
+              </linearGradient>
+              <filter id="flapShadow" x="-10%" y="-10%" width="120%" height="130%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#5E3B4D" flood-opacity="0.2" />
+              </filter>
+            </defs>
+
+            <!-- Top Flap (Aba do Envelope) sealing at the center seal -->
+            <path d="M 0 0 L 200 168 L 400 0 Z" fill="url(#topFlapGrad)" stroke="#D8B0C0" stroke-width="1.5" filter="url(#flapShadow)" />
+
+            <!-- Delicate dashed border along top flap -->
+            <path d="M 14 8 L 200 160 L 386 8" fill="none" stroke="#BA6888" stroke-width="1" stroke-dasharray="3 3" opacity="0.45" />
+          </svg>
         </div>
 
         <!-- Wax Seal -->
