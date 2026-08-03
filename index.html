@@ -14,11 +14,11 @@
   <meta property="og:site_name" content="15 Anos Gabriella Martins" />
   <meta property="og:title" content="Convite Especial - 15 Anos Gabriella Martins" />
   <meta property="og:description" content="Você é nosso convidado especial! Clique no link para abrir o envelope do convite e confirmar sua presença." />
-  <meta property="og:url" content="https://ais-pre-xq324b3ekvjprjoc7tu4id-815374379134.us-east1.run.app/" />
+  <meta property="og:url" content="https://gabimartins15anos.github.io/ConviteEspecial/" />
   
   <!-- Direct Image URLs for Social Crawlers (WhatsApp, Facebook, Twitter) -->
-  <meta property="og:image" content="https://ais-pre-xq324b3ekvjprjoc7tu4id-815374379134.us-east1.run.app/foto.png" />
-  <meta property="og:image:secure_url" content="https://ais-pre-xq324b3ekvjprjoc7tu4id-815374379134.us-east1.run.app/foto.png" />
+  <meta property="og:image" content="https://gabimartins15anos.github.io/ConviteEspecial/foto.png" />
+  <meta property="og:image:secure_url" content="https://gabimartins15anos.github.io/ConviteEspecial/foto.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="800" />
   <meta property="og:image:height" content="420" />
@@ -26,14 +26,14 @@
 
   <!-- WhatsApp Link Preview & Thumbnail Fallbacks -->
   <link rel="icon" type="image/png" href="/marca.png" />
-  <link rel="image_src" href="https://ais-pre-xq324b3ekvjprjoc7tu4id-815374379134.us-east1.run.app/foto.png" />
-  <meta name="thumbnail" content="https://ais-pre-xq324b3ekvjprjoc7tu4id-815374379134.us-east1.run.app/foto.png" />
+  <link rel="image_src" href="https://gabimartins15anos.github.io/ConviteEspecial/foto.png" />
+  <meta name="thumbnail" content="https://gabimartins15anos.github.io/ConviteEspecial/foto.png" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Convite Especial - 15 Anos Gabriella Martins" />
   <meta name="twitter:description" content="Você é nosso convidado especial! Clique no link para abrir o envelope do convite e confirmar sua presença." />
-  <meta name="twitter:image" content="https://ais-pre-xq324b3ekvjprjoc7tu4id-815374379134.us-east1.run.app/foto.png" />
+  <meta name="twitter:image" content="https://gabimartins15anos.github.io/ConviteEspecial/foto.png" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,8 +75,122 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <!-- QRCode JS CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <!-- Firebase Integration -->
-  <script type="module" src="/src/firebase.ts"></script>
+  <!-- Firebase Integration CDN (Funciona no GitHub Pages sem compilação) -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      doc,
+      deleteDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBPJgoDm65ZADoVlDexddMW-bFYQqw31dc",
+      authDomain: "ceremonial-tome-2j1d7.firebaseapp.com",
+      projectId: "ceremonial-tome-2j1d7",
+      storageBucket: "ceremonial-tome-2j1d7.firebasestorage.app",
+      messagingSenderId: "367655038445",
+      appId: "1:367655038445:web:43309953e3160b365d4be4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app, "ai-studio-convitegabriella-8ef02e75-bc65-44b8-bf26-fe27675dff07");
+
+    window.subscribeToMessages = function(callback) {
+      window._lastGuestbookCallback = callback;
+      const messagesCol = collection(db, 'messages');
+      const q = query(messagesCol, orderBy('createdAt', 'desc'));
+
+      const getLocalFallback = () => {
+        try {
+          const saved = localStorage.getItem('gabi_guestbook_cache');
+          return saved ? JSON.parse(saved) : [];
+        } catch { return []; }
+      };
+
+      const saveLocalFallback = (msgs) => {
+        try {
+          localStorage.setItem('gabi_guestbook_cache', JSON.stringify(msgs));
+        } catch {}
+      };
+
+      return onSnapshot(
+        q,
+        (snapshot) => {
+          const msgs = [];
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            msgs.push({
+              id: doc.id,
+              author: data.author || 'Anônimo',
+              message: data.message || '',
+              createdAt: data.createdAt
+            });
+          });
+          saveLocalFallback(msgs);
+          callback(msgs);
+        },
+        (error) => {
+          console.warn('Firestore offline/connection notice:', error);
+          callback(getLocalFallback());
+        }
+      );
+    };
+
+    window.createGuestbookMessage = async function(author, message) {
+      const messagesCol = collection(db, 'messages');
+      try {
+        return await addDoc(messagesCol, {
+          author,
+          message,
+          createdAt: serverTimestamp()
+        });
+      } catch (err) {
+        console.warn('Saved message locally due to connection state:', err);
+        try {
+          const saved = localStorage.getItem('gabi_guestbook_cache');
+          const list = saved ? JSON.parse(saved) : [];
+          const newMsg = {
+            id: 'local-' + Date.now(),
+            author,
+            message,
+            createdAt: new Date().toISOString()
+          };
+          list.unshift(newMsg);
+          localStorage.setItem('gabi_guestbook_cache', JSON.stringify(list));
+          if (window._lastGuestbookCallback) {
+            window._lastGuestbookCallback(list);
+          }
+        } catch {}
+        return { id: 'local-' + Date.now() };
+      }
+    };
+
+    window.deleteGuestbookMessage = async function(id) {
+      try {
+        if (id.startsWith('local-')) {
+          const saved = localStorage.getItem('gabi_guestbook_cache');
+          let list = saved ? JSON.parse(saved) : [];
+          list = list.filter(m => m.id !== id);
+          localStorage.setItem('gabi_guestbook_cache', JSON.stringify(list));
+          if (window._lastGuestbookCallback) {
+            window._lastGuestbookCallback(list);
+          }
+          return;
+        }
+        const msgDocRef = doc(db, 'messages', id);
+        return await deleteDoc(msgDocRef);
+      } catch (err) {
+        console.warn('Error deleting message:', err);
+      }
+    };
+  </script>
 
   <style>
     /* CSS Styles & Animations */
