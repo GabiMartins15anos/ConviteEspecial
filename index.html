@@ -14,8 +14,8 @@
   <meta property="og:site_name" content="15 Anos Gabriella Martins" />
   <meta property="og:title" content="Convite Especial - 15 Anos Gabriella" />
   <meta property="og:description" content="Você é nosso convidado especial! Clique no link para abrir o envelope do convite e confirmar sua presença." />
-  <meta property="og:image" content="og_share.png" />
-  <meta property="og:image:secure_url" content="og_share.png" />
+  <meta id="og-image-meta" property="og:image" content="/og_share.png" />
+  <meta id="og-image-secure-meta" property="og:image:secure_url" content="/og_share.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -24,7 +24,23 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Convite Especial - 15 Anos Gabriella" />
   <meta name="twitter:description" content="Você é nosso convidado especial! Clique no link para abrir o envelope do convite e confirmar sua presença." />
-  <meta name="twitter:image" content="og_share.png" />
+  <meta id="twitter-image-meta" name="twitter:image" content="/og_share.png" />
+
+  <script>
+    // Ajusta a URL completa para a imagem do Open Graph no WhatsApp
+    (function() {
+      try {
+        var origin = window.location.origin || (window.location.protocol + '//' + window.location.host);
+        var fullUrl = origin + '/og_share.png';
+        var ogImg = document.getElementById('og-image-meta');
+        var ogImgSec = document.getElementById('og-image-secure-meta');
+        var twImg = document.getElementById('twitter-image-meta');
+        if (ogImg) ogImg.setAttribute('content', fullUrl);
+        if (ogImgSec) ogImgSec.setAttribute('content', fullUrl);
+        if (twImg) twImg.setAttribute('content', fullUrl);
+      } catch(e){}
+    })();
+  </script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
